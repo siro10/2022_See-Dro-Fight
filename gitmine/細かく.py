@@ -17,7 +17,7 @@ tello.go_xyz_speed( 50, -50, 50, 100)
 tello.go_xyz_speed( -50, 50, -50, 100)
 tello.go_xyz_speed( 50, -50, 50, 100)
 tello.go_xyz_speed( -50, 50, -50, 100)
-tello.go_xyz_speed( 50, 50, 50, 100)
+tello.go_xyz_speed( 50, -50, 50, 100)
 tello.go_xyz_speed( -50, 50, -50, 100)
 
 
