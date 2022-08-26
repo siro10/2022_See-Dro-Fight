@@ -11,7 +11,6 @@ tello.connect()
 battery=tello.get_battery()
 print(battery)
 
-
 def battery():
     battery=tello.get_battery()
     print(battery)
