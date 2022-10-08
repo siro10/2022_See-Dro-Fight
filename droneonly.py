@@ -204,6 +204,8 @@ class FlightDroneClass():
             self.droneControl(key)
 
             self.quitScreen()#時間制限
+            print("battry="+str(self.tello.get_battery()))
+
         cv2.destroyAllWindows()
         return
             
