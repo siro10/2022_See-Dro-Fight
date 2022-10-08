@@ -124,19 +124,19 @@ class FlightDroneClass():
             self.cont_time=time.time()
 
         elif key==ord('e'):
-            self.tello.send_rc_control(0,0,0,self.movesize)
+            self.tello.send_rc_control(0,0,0,30)
             self.cont_time=time.time()
 
         elif key==ord('q'):
-            self.tello.send_rc_control(0,0,0,-self.movesize)
+            self.tello.send_rc_control(0,0,0,30)
             self.cont_time=time.time()
 
         elif key==ord('u'):
-            self.tello.send_rc_control(0,0,10,0)
+            self.tello.send_rc_control(0,0,30,0)
             self.cont_time=time.time()
 
         elif key==ord('j'):
-            self.tello.send_rc_control(0,0,-10,0)
+            self.tello.send_rc_control(0,0,-30,0)
             self.cont_time=time.time()
 
         elif key==ord('t'):
@@ -209,7 +209,7 @@ class FlightDroneClass():
             
 
 a = FlightDroneClass()
-a.getPlayTime(20)
+a.getPlayTime(300)
 a.start()
 a.main()
 
