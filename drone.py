@@ -74,10 +74,10 @@ class FlightDroneClass():
         #点数の計算、タイマーリセット
         if data:
             print(data)#qrコードの内容
-                hight = 1
-                for i in self.players:
-                    #点数追加、タイマーリセット
-                    if data == i[0]:
+            hight = 1
+            for i in self.players:
+                #点数追加、タイマーリセット
+                if data == i[0]:
                     if time.time()-i[3]>=5 :
                         self.players[hight - 1][1] = self.players[hight - 1][1] + 1
                         self.players[hight - 1][3]=time.time()
