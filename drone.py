@@ -1,3 +1,4 @@
+from tempfile import TemporaryFile
 import time, cv2, sys
 from djitellopy import Tello
 
@@ -143,23 +144,38 @@ class FlightDroneClass():
             self.cont_time=time.time()
 
         elif key==ord('q'):
-            self.tello.send_rc_control(0,0,0,30)
+            try:
+                self.tello.send_rc_control(0,0,0,30)
+            except:
+                pass
             self.cont_time=time.time()
 
         elif key==ord('u'):
-            self.tello.send_rc_control(0,0,30,0)
+            try:
+                self.tello.send_rc_control(0,0,30,0)
+            except:
+                pass
             self.cont_time=time.time()
 
         elif key==ord('j'):
-            self.tello.send_rc_control(0,0,-30,0)
+            try:
+                self.tello.send_rc_control(0,0,-30,0)
+            except:
+                pass
             self.cont_time=time.time()
 
         elif key==ord('t'):
-            self.tello.takeoff()
+            try:
+                self.tello.takeoff()
+            except:
+                pass
 
         elif key==ord('l'):
-            self.tello.land()
-        
+            try:
+                self.tello.land()
+            except:
+                pass
+            
         elif key==ord('1'):
             self.movesize=self.kando1
 
