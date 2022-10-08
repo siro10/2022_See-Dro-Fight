@@ -214,5 +214,3 @@ a = FlightDroneClass()
 a.getPlayTime(300)
 a.start()
 a.main()
-
-print("rrrrrrrrS")

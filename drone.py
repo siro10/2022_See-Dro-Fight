@@ -1,4 +1,4 @@
-import time, cv2
+import time, cv2, sys
 from djitellopy import Tello
 
 """
@@ -14,14 +14,14 @@ esc=テロ制御の終了
 """
 
 #a
-change_kando=1#変えるやつ
+change_kando=2#変えるやつ
 
 
 cap=cv2.VideoCapture(1,cv2.CAP_DSHOW)
 
 class FlightDroneClass():
     def __init__(self):
-        #self.movesize = 70
+        self.movesize = 70
         
         self.players = []
 
@@ -76,14 +76,13 @@ class FlightDroneClass():
             print(data)#qrコードの内容
             hight = 1
             for i in self.players:
-                #点数追加、タイマーリセット
                 if data == i[0]:
                     if time.time()-i[3]>=5 :
                         self.players[hight - 1][1] = self.players[hight - 1][1] + 1
                         self.players[hight - 1][3]=time.time()
-                        return
-                    hight = hight + 1
-                #新規登録
+                    return
+                hight = hight + 1
+            #新規登録
             self.players.append([data,1,(50*hight),time.time()])
 
                 
@@ -95,6 +94,7 @@ class FlightDroneClass():
             print(self.players)
             #点数表示の準備
             cv2.putText(self.image, (str(self.gameTime  - int(time.time()-self.timeStart)) + "seconds left"), (0, 50), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
+                
             for i in self.players:
                 cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
             #表示
@@ -124,19 +124,19 @@ class FlightDroneClass():
             self.cont_time=time.time()
 
         elif key==ord('e'):
-            self.tello.send_rc_control(0,0,0,self.movesize)
+            self.tello.send_rc_control(0,0,0,30)
             self.cont_time=time.time()
 
         elif key==ord('q'):
-            self.tello.send_rc_control(0,0,0,-self.movesize)
+            self.tello.send_rc_control(0,0,0,30)
             self.cont_time=time.time()
 
         elif key==ord('u'):
-            self.tello.send_rc_control(0,0,10,0)
+            self.tello.send_rc_control(0,0,30,0)
             self.cont_time=time.time()
 
         elif key==ord('j'):
-            self.tello.send_rc_control(0,0,-10,0)
+            self.tello.send_rc_control(0,0,-30,0)
             self.cont_time=time.time()
 
         elif key==ord('t'):
@@ -144,15 +144,15 @@ class FlightDroneClass():
 
         elif key==ord('l'):
             self.tello.land()
-
+        
         elif key==ord('1'):
-            self.movesize=50
+            self.movesize=self.kando1
 
         elif key==ord('2'):
-            self.movesize=70
-        
+            self.movesize=self.kando2
+
         elif key==ord('3'):
-            self.movesize=100
+            self.movesize=self.kando3
 
 
         elif key==27:#27はEsc
@@ -183,6 +183,10 @@ class FlightDroneClass():
                 cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         
         cv2.imshow('SEE-DRO FIGHT!', self.image)
+        self.whileCheck = False
+        cv2.waitKey(5000)
+
+
             
 
     def main(self):
@@ -194,11 +198,14 @@ class FlightDroneClass():
         while self.whileCheck:
             self.getImage()#画像の取得、QRコードの読み取り
             self.displayScreen()#ドローンからの画像の表示
-
+            
             #キー入力の受けとり、ドローンの操作
             key = cv2.waitKey(30)
             self.droneControl(key)
 
             self.quitScreen()#時間制限
+            print("battry="+str(self.tello.get_battery()))
+
         cv2.destroyAllWindows()
         return
+           
