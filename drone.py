@@ -65,7 +65,8 @@ class FlightDroneClass():
             return
 
         #バッテリー残量取得
-        print("battery="+str(self.tello.get_battery()))
+        self.battrey=self.tello.get_battery()
+        print("battry="+str(self.battery))
 
         #画像取得開始
         self.tello.streamon()
@@ -96,6 +97,7 @@ class FlightDroneClass():
         #ドローンからの画像の取得
         self.image = self.tello.get_frame_read().frame
         #QRコード読み取り
+        self.image = np.uint8(self.image)
         data,bbox,rectifiedImage = self.qrDetector.detectAndDecode(self.image)
 
         #点数の計算、タイマーリセット
@@ -126,6 +128,7 @@ class FlightDroneClass():
         for i in self.players:
             cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         #表示
+            cv2.putText(self.image, (str(self.battery)), (0, 100 + 300), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         cv2.imshow('SEE-DRO FIGHT!', self.image)
             
     #キーボード操作
@@ -134,6 +137,7 @@ class FlightDroneClass():
         if key==-1:
             if ((time.time())-self.cont_time)>=0.8:
                 self.tello.send_rc_control(0,0,0,0)
+                self.battery=self.tello.get_battery()
 
         if key==ord("w"):
             try:
