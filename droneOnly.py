@@ -126,6 +126,9 @@ class FlightDroneClass():
         for i in self.players:
             cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         #表示
+        cv2.putText(self.tello.get_battery(), (0, 600), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
+        
+        
         cv2.imshow('SEE-DRO FIGHT!', self.image)
             
     #キーボード操作
@@ -263,10 +266,6 @@ class FlightDroneClass():
         while self.whileCheck:
             self.getImage()#画像の取得、QRコードの読み取り
             self.displayScreen()#ドローンからの画像の表示
-            
-            
-            
-
 
             #キー入力の受けとり
             key = cv2.waitKey(30)
