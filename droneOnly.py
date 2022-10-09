@@ -62,7 +62,7 @@ class FlightDroneClass():
         try:
             self.tello.connect()
         except:
-            return
+            pass
 
         #バッテリー残量取得
         print("battery="+str(self.tello.get_battery()))
@@ -278,9 +278,9 @@ class FlightDroneClass():
 
 
         print("droneHasFin")
-        return int(self.totalPoints)
+        #return int(self.totalPoints)
 
 a = FlightDroneClass()
-a.getPlayTime(300)
 a.start()
-a.main
+a.getPlayTime(300)
+a.main()
