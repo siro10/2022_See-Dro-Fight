@@ -126,7 +126,7 @@ class FlightDroneClass():
         for i in self.players:
             cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         #表示
-        cv2.putText(str(self.tello.get_battery()), (0, 600), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
+        #cv2.putText((str(self.tello.get_battery())), (0, 600), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         
         
         cv2.imshow('SEE-DRO FIGHT!', self.image)
