@@ -1,5 +1,4 @@
-from tempfile import TemporaryFile
-import time, cv2, sys
+import time, cv2
 from djitellopy import Tello
 
 """
@@ -15,15 +14,14 @@ esc=テロ制御の終了
 """
 
 #a
-change_kando=2#変えるやつ
+change_kando=1#変えるやつ
 
 
 cap=cv2.VideoCapture(1,cv2.CAP_DSHOW)
 
 class FlightDroneClass():
     def __init__(self):
-        self.movesize = 70
-        
+        #プレイヤー点数初期値
         self.players = []
 
         #プレイ時間初期値
@@ -34,6 +32,13 @@ class FlightDroneClass():
         self.tello = Tello()
         #メインループ
         self.whileCheck = True
+        #動きの大きさ調整
+        self.movesSize = 0
+        #合計点
+        self.totalPoints = 0
+        #状態把握
+        self.isLanding = True
+        
 
     #接続開始
     def start(self):
@@ -50,15 +55,36 @@ class FlightDroneClass():
             self.kando1=40
             self.kando2=70
             self.kando3=100
-
+        self.angle=30
+        self.moveSize=self.kando1
+        
         #ドローンとの接続
-        self.tello.connect()
+        try:
+            self.tello.connect()
+        except:
+            return
 
         #バッテリー残量取得
-        print("battry="+str(self.tello.get_battery()))
+        print("battery="+str(self.tello.get_battery()))
 
         #画像取得開始
         self.tello.streamon()
+
+        #メインループ
+        self.whileCheck = True
+        #状態把握
+        self.isLanding = True
+        #プレイヤー点数初期化
+        self.players = []
+        #合計点
+        self.totalPoints = 0
+        #ウィンドウ削除
+        cv2.destroyAllWindows()
+        #タイマー開始
+        self.cont_time=time.time()
+        self.timePoint = time.time()#点数
+        self.timeStart = time.time()#時間制限
+
 
 
     #飛行時間の取得
@@ -86,20 +112,21 @@ class FlightDroneClass():
             #新規登録
             self.players.append([data,1,(50*hight),time.time()])
 
-                
+
 
 
     #ディスプレイに表示
     def displayScreen(self) :
-            print("players:")
-            print(self.players)
-            #点数表示の準備
-            cv2.putText(self.image, (str(self.gameTime  - int(time.time()-self.timeStart)) + "seconds left"), (0, 50), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
-                
-            for i in self.players:
-                cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
-            #表示
-            cv2.imshow('SEE-DRO FIGHT!', self.image)
+        print("players:")
+        print(self.players)
+        #点数表示の準備
+        #時間
+        cv2.putText(self.image, (str(self.gameTime  - int(time.time()-self.timeStart)) + "seconds left"), (0, 50), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
+        #点数
+        for i in self.players:
+            cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
+        #表示
+        cv2.imshow('SEE-DRO FIGHT!', self.image)
             
     #キーボード操作
     def droneControl(self,key):#left,rigth   back,foward   up,down   cw,ccw
@@ -175,30 +202,41 @@ class FlightDroneClass():
                 self.tello.land()
             except:
                 pass
-            
+        
         elif key==ord('1'):
-            self.movesize=self.kando1
+            self.moveSize=self.kando1
+            self.angle=20
 
         elif key==ord('2'):
-            self.movesize=self.kando2
+            self.moveSize=self.kando2
+            self.angle=40
 
         elif key==ord('3'):
-            self.movesize=self.kando3
+            self.moveSize=self.kando3
+            self.angle=90
 
 
         elif key==27:#27はEsc
             print("esc has pressed")
             self.displayTotalScore()
-            self.tello.land()
-            
+            if self.isLanding == False:
+                self.tello.land()
+                self.isLanding = True
+            cv2.waitKey(100)
+            time.sleep(3)
+            return
 
+    
     
     #時間制限で終了
     def quitScreen(self):
         #print(time.time()-self.timeStart)
         if time.time()-self.timeStart>=self.gameTime :
             self.displayTotalScore()
-            self.tello.land()
+            if self.isLanding == False:
+                self.tello.land()
+                self.isLanding = True
+            return
 
     #リザルト表示
     def displayTotalScore(self) :
@@ -215,28 +253,32 @@ class FlightDroneClass():
         
         cv2.imshow('SEE-DRO FIGHT!', self.image)
         self.whileCheck = False
+        self.totalPoints = points
         cv2.waitKey(5000)
 
 
-            
+
 
     def main(self):
-        #タイマー開始
-        self.cont_time=time.time()
-        self.timePoint = time.time()#点数
-        self.timeStart = time.time()#時間制限
-
         while self.whileCheck:
             self.getImage()#画像の取得、QRコードの読み取り
             self.displayScreen()#ドローンからの画像の表示
             
-            #キー入力の受けとり、ドローンの操作
+            
+            
+
+
+            #キー入力の受けとり
             key = cv2.waitKey(30)
-            self.droneControl(key)
+
+            #ドローンに命令を送信
+            try:
+                self.droneControl(key)
+            except:
+                self.whileCheck=False
 
             self.quitScreen()#時間制限
-            print("battry="+str(self.tello.get_battery()))
 
-        cv2.destroyAllWindows()
-        return
-           
+
+        print("droneHasFin")
+        return int(self.totalPoints)
