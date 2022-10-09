@@ -272,11 +272,8 @@ class FlightDroneClass():
             key = cv2.waitKey(30)
 
             #ドローンに命令を送信
-            try:
-                self.droneControl(key)
-            except:
-                self.whileCheck=False
-
+            self.droneControl(key)
+            
             self.quitScreen()#時間制限
 
 
