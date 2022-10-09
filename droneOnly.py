@@ -265,6 +265,8 @@ class FlightDroneClass():
             self.displayScreen()#ドローンからの画像の表示
             
             
+            
+
 
             #キー入力の受けとり
             key = cv2.waitKey(30)
@@ -277,3 +279,8 @@ class FlightDroneClass():
 
         print("droneHasFin")
         return int(self.totalPoints)
+
+a = FlightDroneClass()
+a.getPlayTime(300)
+a.start()
+a.main
