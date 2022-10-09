@@ -64,9 +64,6 @@ class FlightDroneClass():
         except:
             pass
 
-        #バッテリー残量取得
-        print("battery="+str(self.tello.get_battery()))
-
         #画像取得開始
         self.tello.streamon()
 
@@ -117,8 +114,8 @@ class FlightDroneClass():
 
     #ディスプレイに表示
     def displayScreen(self) :
-        print("players:")
-        print(self.players)
+        #print("players:")
+        #print(self.players)
         #点数表示の準備
         #時間
         cv2.putText(self.image, (str(self.gameTime  - int(time.time()-self.timeStart)) + "seconds left"), (0, 50), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
@@ -126,13 +123,13 @@ class FlightDroneClass():
         for i in self.players:
             cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         #表示
-        #cv2.putText((str(self.tello.get_battery())), (0, 600), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
+        cv2.putText(self.image,str(self.tello.get_battery()), (0, 600), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
         
         
         cv2.imshow('SEE-DRO FIGHT!', self.image)
             
     #キーボード操作
-    def droneControl(self,key):#left,rigth   back,foward   up,down   cw,ccw
+    def droneControl(self,key):#left,right   back,forward   up,down   cw,ccw
 
         if key==-1:
             if ((time.time())-self.cont_time)>=0.8:
@@ -229,8 +226,8 @@ class FlightDroneClass():
             time.sleep(3)
             return
 
-    
-    
+
+
     #時間制限で終了
     def quitScreen(self):
         #print(time.time()-self.timeStart)
@@ -253,7 +250,7 @@ class FlightDroneClass():
         #各プレイヤーの点数表示
         for i in self.players:
                 cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (255, 255, 255), 5, cv2.LINE_AA)
-        
+
         cv2.imshow('SEE-DRO FIGHT!', self.image)
         self.whileCheck = False
         self.totalPoints = points
