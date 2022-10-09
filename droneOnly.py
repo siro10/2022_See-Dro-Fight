@@ -137,28 +137,28 @@ class FlightDroneClass():
 
         if key==ord("w"):
             try:
-                self.tello.send_rc_control(0,self.movesize,0,0)
+                self.tello.send_rc_control(0,self.moveSize,0,0)
             except:
                 pass
             self.cont_time=time.time()
 
         elif key==ord('s'):
             try:
-                self.tello.send_rc_control(0,-self.movesize,0,0)
+                self.tello.send_rc_control(0,-self.moveSize,0,0)
             except:
                 pass
             self.cont_time=time.time()
 
         elif key==ord("d"):
             try:
-                self.tello.send_rc_control(self.movesize,0,0,0)
+                self.tello.send_rc_control(self.moveSize,0,0,0)
             except:
                 pass
             self.cont_time=time.time()
 
         elif key==ord("a"):
             try:
-                self.tello.send_rc_control(-self.movesize,0,0,0)
+                self.tello.send_rc_control(-self.moveSize,0,0,0)
             except:
                 pass
             self.cont_time=time.time()
