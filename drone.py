@@ -83,7 +83,6 @@ class FlightDrone():
     #プレイヤー人数設定
     def getPlayerNumbers(self,nom):
         self.playerNumbers = nom
-        print(self.playerNumbers)
 
 
     #画像取得、点数計算
@@ -95,7 +94,6 @@ class FlightDrone():
 
         #点数の計算、タイマーリセット
         if qrText:
-            print(qrText)#qrコードの内容
             hight = 1
             for i in self.players:
                 if qrText == i[0]:
@@ -104,10 +102,7 @@ class FlightDrone():
                         self.players[hight - 1][3]=time.time()
                     return
                 hight = hight + 1
-            #新規登録
-            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-            print(len(self.players))
-            print(self.playerNumbers)
+            #プレイヤーの新規登録
             if len(self.players) < self.playerNumbers:
                 self.players.append([qrText,1,(50*hight),time.time()])
 
@@ -223,7 +218,6 @@ class FlightDrone():
 
 
         elif key==27:#27はEsc
-            print("esc has pressed")
             self.displayTotalScore()
             if self.isLanding == False:
                 try:
@@ -237,7 +231,6 @@ class FlightDrone():
 
     #時間制限で終了
     def timeLimit(self):
-        #print(time.time()-self.timeStart)
         if time.time()-self.timeStart>=self.gameTime :
             self.displayTotalScore()
             if self.isLanding == False:
@@ -284,5 +277,4 @@ class FlightDrone():
             #時間制限で終了
             self.timeLimit()
 
-        print("droneHasFin")
         return self.totalPoints

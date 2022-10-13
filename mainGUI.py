@@ -510,7 +510,7 @@ def frame_change4(n,frame):#カウントを変えながらフレーム切り替�
 
 def frame_change5(n,frame):
     global member_count,memcount,gamemodenow,point
-    print(droneFight.start())
+    droneFight.start()
     point = droneFight.main()
     pointimage_change()
     if gamemodenow==1:
