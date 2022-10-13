@@ -353,7 +353,7 @@ def gamemode_change(muki):#ゲームモードを変える
             b2.place(x = 415, y = 275,width = 450,height = 80)
             gamemode_count=gamemode_count+1
             gamemodenow=2
-            droneFight.getPlayerNumbers(4)
+            droneFight.getPlayerNumbers(2)
         else:
             pass
     elif muki==-1:#ひだりさんかく
@@ -364,6 +364,7 @@ def gamemode_change(muki):#ゲームモードを変える
             b2.place(x = 415, y = 275,width = 450,height = 80)
             gamemode_count=gamemode_count-1
             gamemodenow=1
+            droneFight.getPlayerNumbers(1)
         elif gamemode_count%2==1:#Two players
             Gamemodechoose_img = PhotoImage(file = f".//images//All Together.png")
             b2 = Button(frame_gamemode, image = Gamemodechoose_img, borderwidth = 0,highlightthickness = 0,command = lambda:frame_change(frame_syou1),relief = "flat")
@@ -371,6 +372,7 @@ def gamemode_change(muki):#ゲームモードを変える
             b2.place(x = 415, y = 275,width = 450,height = 80)
             gamemode_count=gamemode_count-1
             gamemodenow=2
+            droneFight.getPlayerNumbers(2)
         else:
             pass
     
@@ -443,18 +445,22 @@ def member_change(muki):#メンバーの人数（逃げる人）を変える 変
             memcount=3
             member_img = PhotoImage(file = f".//images//3syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(3)
         elif memcount==3:
             memcount=4
             member_img = PhotoImage(file = f".//images//4syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(4)
         elif memcount==4:
             memcount=5
             member_img = PhotoImage(file = f".//images//5syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(5)
         elif memcount==5:
             memcount=2
             member_img = PhotoImage(file = f".//images//2syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(2)
         else:
             pass
     elif muki==-1:
@@ -462,18 +468,22 @@ def member_change(muki):#メンバーの人数（逃げる人）を変える 変
             memcount=4
             member_img = PhotoImage(file = f".//images//4syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(4)
         elif memcount==4:
             memcount=3
             member_img = PhotoImage(file = f".//images//3syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(3)
         elif memcount==3:
             memcount=2
             member_img = PhotoImage(file = f".//images//2syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(2)
         elif memcount==2:
             memcount=5
             member_img = PhotoImage(file = f".//images//5syou.png")
             member = canvas_memberchange.create_image(170+30, 203+47,image=member_img)
+            droneFight.getPlayerNumbers(5)
         else:
             pass
     else:
@@ -500,9 +510,9 @@ def frame_change4(n,frame):#カウントを変えながらフレーム切り替�
 
 def frame_change5(n,frame):
     global member_count,memcount,gamemodenow,point
-    if droneFight.start():
-        point = droneFight.main()
-        pointimage_change()
+    print(droneFight.start())
+    point = droneFight.main()
+    pointimage_change()
     if gamemodenow==1:
         memcount=n
     frame_change(frame)

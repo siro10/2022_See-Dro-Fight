@@ -1,4 +1,4 @@
-import time, cv2
+import time, cv2,sys
 from djitellopy import Tello
 
 
@@ -49,7 +49,7 @@ class FlightDrone():
         try:
             self.tello.connect()
         except:
-            return False
+            sys.exit()
 
         #画像取得開始
         self.tello.streamon()
@@ -62,15 +62,13 @@ class FlightDrone():
         self.players = []
         #合計点
         self.totalPoints = 0
-        #プレイヤー人数初期値
-        self.playerNumbers = 4
         #ウィンドウ削除
         cv2.destroyAllWindows()
         #タイマー開始
         self.cont_time=time.time()
         self.timePoint = time.time()#点数
         self.timeStart = time.time()#時間制限
-        return True
+
 
 
 
@@ -85,6 +83,7 @@ class FlightDrone():
     #プレイヤー人数設定
     def getPlayerNumbers(self,nom):
         self.playerNumbers = nom
+        print(self.playerNumbers)
 
 
     #画像取得、点数計算
@@ -106,7 +105,9 @@ class FlightDrone():
                     return
                 hight = hight + 1
             #新規登録
+            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
             print(len(self.players))
+            print(self.playerNumbers)
             if len(self.players) < self.playerNumbers:
                 self.players.append([qrText,1,(50*hight),time.time()])
 
@@ -123,7 +124,7 @@ class FlightDrone():
         for i in self.players:
             cv2.putText(self.image, (i[0] + ":" +str(i[1])), (0, 50 + i[2]), cv2.FONT_HERSHEY_PLAIN, 4, (0, 0, 0), 5, cv2.LINE_AA)
         #表示
-        cv2.putText(self.image,("batt:" + str(self.tello.get_battery())), (0, 600), cv2.FONT_HERSHEY_PLAIN, 4, (0, 0, 0), 5, cv2.LINE_AA)
+        cv2.putText(self.image,("batt:" + str(self.tello.get_battery())), (0, 710), cv2.FONT_HERSHEY_PLAIN, 4, (0, 0, 0), 5, cv2.LINE_AA)
 
 
         cv2.imshow('SEE-DRO FIGHT!', self.image)
@@ -133,6 +134,7 @@ class FlightDrone():
         if key==-1:
             if ((time.time())-self.cont_time)>=0.8:
                 self.tello.send_rc_control(0,0,0,0)
+                #self.cont_time=time.time()
 
         if key==ord("w"):
             try:
@@ -193,8 +195,10 @@ class FlightDrone():
         elif key==ord('t'):
             try:
                 if self.isLanding:
+                    takeOffTime = time.time()
                     self.tello.takeoff()
                     self.isLanding = False
+                    self.gameTime += int(time.time() - takeOffTime)
             except:
                 pass
 
