@@ -254,6 +254,12 @@ class FlightDrone():
         cv2.imshow('SEE-DRO FIGHT!', self.image)
         self.whileCheck = False
         self.totalPoints = points
+        #cv2.waitKey(5000)
+        ##################################################3
+        ##waitKeyいらないかも(検証)
+        #############################################
+
+
 
 
     def main(self):
@@ -272,3 +278,12 @@ class FlightDrone():
             self.timeLimit()
 
         return self.totalPoints
+
+        
+drone = FlightDrone()
+drone.getPlayTime(300)
+drone.getPlayerNumbers(5)
+drone.getReactionSensitivity(0)
+
+drone.start()
+drone.main()
