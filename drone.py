@@ -254,11 +254,6 @@ class FlightDrone():
         cv2.imshow('SEE-DRO FIGHT!', self.image)
         self.whileCheck = False
         self.totalPoints = points
-        #cv2.waitKey(5000)
-        ##################################################3
-        ##waitKeyいらないかも(検証)
-        #############################################
-
 
 
 
