@@ -15,7 +15,7 @@ gamemodenow=2#選択中のゲームモード
 memcount=2#逃げる人の数
 pygame.mixer.init(frequency = 44100)    # 初期設定
 pygame.mixer.music.load(".//images//決定ボタンを押す34.mp3")     # 音楽ファイルの読み込み
-droneFight = drone.FlightDroneClass()#ドローンプログラムの準備
+droneFight = drone.FlightDrone()#ドローンプログラムの準備
 ########################################################################################################
     
 
@@ -205,6 +205,7 @@ def kando_change(kando):#感度を変える
         kando2 = Button(frame_setting,image = kando2_img,borderwidth = 0,highlightthickness = 0,command = lambda:kando_change(2),relief = "flat")
 
         kando2.place(x = 551, y = 420,width = 121,height = 126)
+        droneFight.getReactionSensitivity(0)
     elif kando==1:
         kando0_img = PhotoImage(file = f".//images//kando1-2.png")
         kando0 = Button(frame_setting,image = kando0_img,borderwidth = 0,highlightthickness = 0,command = lambda:kando_change(0),relief = "flat")
@@ -220,6 +221,7 @@ def kando_change(kando):#感度を変える
         kando2 = Button(frame_setting,image = kando2_img,borderwidth = 0,highlightthickness = 0,command = lambda:kando_change(2),relief = "flat")
 
         kando2.place(x = 551, y = 420,width = 121,height = 126)
+        droneFight.getReactionSensitivity(1)
     elif kando==2:
         kando0_img = PhotoImage(file = f".//images//kando1-2.png")
         kando0 = Button(frame_setting,image = kando0_img,borderwidth = 0,highlightthickness = 0,command = lambda:kando_change(0),relief = "flat")
@@ -235,6 +237,7 @@ def kando_change(kando):#感度を変える
         kando2 = Button(frame_setting,image = kando2_img,borderwidth = 0,highlightthickness = 0,command = lambda:kando_change(2),relief = "flat")
 
         kando2.place(x = 551, y = 420,width = 121,height = 126)
+        droneFight.getReactionSensitivity(2)
     else:
         pass
 
@@ -342,6 +345,7 @@ def gamemode_change(muki):#ゲームモードを変える
             b2.place(x = 415, y = 275,width = 450,height = 80)
             gamemode_count=gamemode_count+1
             gamemodenow=1
+            droneFight.getPlayerNumbers(1)
         elif gamemode_count%2==1:#Two playersのとき
             Gamemodechoose_img = PhotoImage(file = f".//images//All Together.png")
             b2 = Button(frame_gamemode, image = Gamemodechoose_img, borderwidth = 0,highlightthickness = 0,command = lambda:frame_change(frame_syou1),relief = "flat")
@@ -349,6 +353,7 @@ def gamemode_change(muki):#ゲームモードを変える
             b2.place(x = 415, y = 275,width = 450,height = 80)
             gamemode_count=gamemode_count+1
             gamemodenow=2
+            droneFight.getPlayerNumbers(4)
         else:
             pass
     elif muki==-1:#ひだりさんかく
@@ -425,6 +430,11 @@ def pointimage_change():#リザルト画面のポイントを変える　変数p
         niketa_img = PhotoImage(file = f".//images//0_dot.png")
         itiketa_img = PhotoImage(file = f".//images//0_dot.png")
 
+    itiketa=canvas_result.create_image(514+80,287+126,image=itiketa_img)#アンカーが画像の左端の場合、(514+80,287+126)
+
+    niketa=canvas_result.create_image(317+80,287+126,image=niketa_img)#アンカーが画像の左端の場合、(317+80,287+126)
+
+
 
 def member_change(muki):#メンバーの人数（逃げる人）を変える 変数mencountの数＝逃げる人の数
     global member_img,memcount
@@ -489,9 +499,10 @@ def frame_change4(n,frame):#カウントを変えながらフレーム切り替�
 
 
 def frame_change5(n,frame):
-    droneFight.start()
-    droneFight.main()
-    global member_count,memcount,gamemodenow
+    global member_count,memcount,gamemodenow,point
+    if droneFight.start():
+        point = droneFight.main()
+        pointimage_change()
     if gamemodenow==1:
         memcount=n
     frame_change(frame)
@@ -824,9 +835,6 @@ background10 = canvas_result.create_image(640.0, 360.0,image=background10_img)
 
 pointimage_change()
 
-itiketa=canvas_result.create_image(514+80,287+126,image=itiketa_img)#アンカーが画像の左端の場合、(514+80,287+126)
-
-niketa=canvas_result.create_image(317+80,287+126,image=niketa_img)#アンカーが画像の左端の場合、(317+80,287+126)
 
 BACK4_img = PhotoImage(file = f".//images//BACKbutton4.png")
 
