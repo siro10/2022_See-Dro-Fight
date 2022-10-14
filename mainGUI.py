@@ -353,7 +353,7 @@ def gamemode_change(muki):#ゲームモードを変える
             b2.place(x = 415, y = 275,width = 450,height = 80)
             gamemode_count=gamemode_count+1
             gamemodenow=2
-            droneFight.getPlayerNumbers(2)
+            droneFight.getPlayerNumbers(10)
         else:
             pass
     elif muki==-1:#ひだりさんかく
@@ -372,7 +372,7 @@ def gamemode_change(muki):#ゲームモードを変える
             b2.place(x = 415, y = 275,width = 450,height = 80)
             gamemode_count=gamemode_count-1
             gamemodenow=2
-            droneFight.getPlayerNumbers(2)
+            droneFight.getPlayerNumbers(10)
         else:
             pass
     
@@ -790,7 +790,7 @@ Gamemodechoose.place(x = 415, y = 275,width = 450,height = 80)
 #b3.place( x = 410, y = 161, width = 450, height = 80)
 
 Connect1_img = PhotoImage(file = f".//images//ConnectButton.png")
-Connect1 = Button(frame_gamemode,image = Connect1_img,borderwidth = 0,highlightthickness = 0,command = lambda:frame_change3(frame_memberchange,frame_tellowait),relief = "flat")
+Connect1 = Button(frame_gamemode,image = Connect1_img,borderwidth = 0,highlightthickness = 0,command = lambda:frame_change(frame_tellowait),relief = "flat")
 
 Connect1.place(x = 893, y = 476,width = 257,height = 159)
 
